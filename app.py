@@ -9,13 +9,14 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
-# import os
-# import psycopg2
+import os
+import psycopg2
 
-# DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a line-booooooot').read()[:-1]
-# conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-# cursor = conn.cursor()
 app = Flask(__name__)
+
+DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a line-booooooot').read()[:-1]
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+cursor = conn.cursor()
 
 line_bot_api = LineBotApi('SoMERI2Dgs8EQsqeiDGUEUVKDDLDOxChkUwvZEMDbaQ8HkgRF8bClo6WoGiE9WXmtUjyZkSN6byabo40k7BEzqpVuGm4JlkWLBQpwdzjPnr5KgiF6ejbfWkuqGHuaPRd8tMU726ErGkxFAjQP/mlrwdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('46c74932b451108b7032ec89f7e47f31')
@@ -42,27 +43,30 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # cursor.execute("SELECT user_word, bot_word FROM word;")
-    # data = []
-    # while True:
-    #     temp = cursor.fetchone()
-    #     if temp:
-    #         data.append(temp)
-    #     else:
-    #         break
+    cursor.execute("SELECT user_word, bot_word FROM word;")
+    msg = event.message.text
+    data = []
+    while True:
+        temp = cursor.fetchone()
+        if temp:
+            data.append(temp)
+        else:
+            break
             
-    # for d in data:
-    #     if d[0] in event.message.text:
-    #         bot = d[1]
-
-    # conn.commit()
-    # cursor.close()
-    # conn.close()
+    for d in data:
+        if d[0] in msg:
+            bot = d[1]
 
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
-    # bot = ""
+        TextSendMessage(text=bot))
+
+    bot = ""
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
 
 
 if __name__ == "__main__":

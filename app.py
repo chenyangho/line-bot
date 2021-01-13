@@ -12,10 +12,10 @@ from linebot.models import (
 import os
 import psycopg2
 
-app = Flask(__name__)
 DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a line-booooooot').read()[:-1]
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = conn.cursor()
+app = Flask(__name__)
 
 line_bot_api = LineBotApi('SoMERI2Dgs8EQsqeiDGUEUVKDDLDOxChkUwvZEMDbaQ8HkgRF8bClo6WoGiE9WXmtUjyZkSN6byabo40k7BEzqpVuGm4JlkWLBQpwdzjPnr5KgiF6ejbfWkuqGHuaPRd8tMU726ErGkxFAjQP/mlrwdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('46c74932b451108b7032ec89f7e47f31')
@@ -53,7 +53,7 @@ def handle_message(event):
             break
             
     for d in data:
-        if d[0] in input_word:
+        if d[0] in message:
             bot = d[1]
 
     conn.commit()

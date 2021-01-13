@@ -14,10 +14,6 @@ import psycopg2
 
 app = Flask(__name__)
 
-DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a line-booooooot').read()[:-1]
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-cursor = conn.cursor()
-
 line_bot_api = LineBotApi('SoMERI2Dgs8EQsqeiDGUEUVKDDLDOxChkUwvZEMDbaQ8HkgRF8bClo6WoGiE9WXmtUjyZkSN6byabo40k7BEzqpVuGm4JlkWLBQpwdzjPnr5KgiF6ejbfWkuqGHuaPRd8tMU726ErGkxFAjQP/mlrwdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('46c74932b451108b7032ec89f7e47f31')
 
@@ -43,8 +39,23 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    cursor.execute("SELECT user_word, bot_word FROM word;")
+    
     msg = event.message.text
+    r = database_check(msg)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=r))
+
+    
+
+def database_check(message):
+
+    DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a line-booooooot').read()[:-1]
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT user_word, bot_word FROM word;")
+    
     data = []
     while True:
         temp = cursor.fetchone()
@@ -57,16 +68,11 @@ def handle_message(event):
         if d[0] in msg:
             bot = d[1]
 
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=bot))
-
-    bot = ""
-
     conn.commit()
     cursor.close()
     conn.close()
 
+    return bot
 
 
 if __name__ == "__main__":

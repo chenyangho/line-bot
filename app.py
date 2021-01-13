@@ -13,9 +13,9 @@ import os
 import psycopg2
 
 app = Flask(__name__)
+DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a line-booooooot').read()[:-1]
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = conn.cursor()
-select = "SELECT user_word, bot_word FROM word;"
 
 line_bot_api = LineBotApi('SoMERI2Dgs8EQsqeiDGUEUVKDDLDOxChkUwvZEMDbaQ8HkgRF8bClo6WoGiE9WXmtUjyZkSN6byabo40k7BEzqpVuGm4JlkWLBQpwdzjPnr5KgiF6ejbfWkuqGHuaPRd8tMU726ErGkxFAjQP/mlrwdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('46c74932b451108b7032ec89f7e47f31')
@@ -42,6 +42,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    select = "SELECT user_word, bot_word FROM word;"
     cursor.execute(select)
     data = []
     while True:

@@ -12,7 +12,7 @@ from linebot.models import (
 import os
 import psycopg2
 
-DATABASE_URL = os.environ['postgres://jglgvqhikukisk:285f7a822763e5ae8730a2910c20e4ebbd9954506cc5a4a8b4281729410cc719@ec2-3-216-181-219.compute-1.amazonaws.com:5432/d5l1ehhk24qmdk']
+DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a line-booooooot').read()[:-1]
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = conn.cursor()
 app = Flask(__name__)
@@ -52,7 +52,7 @@ def handle_message(event):
             break
             
     for d in data:
-        if d[0] in message:
+        if d[0] in event.message.text:
             bot = d[1]
 
     conn.commit()

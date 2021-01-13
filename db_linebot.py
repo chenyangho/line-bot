@@ -31,7 +31,7 @@ while True:
         data.append(temp)
     else:
         break
-        
+
 for d in data:
     if d[0] in input_word:
         print(d[1])

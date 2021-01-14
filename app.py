@@ -50,8 +50,7 @@ def handle_message(event):
 
 def database_check(message):
 
-    DATABASE_URL = os.environ['postgres://jglgvqhikukisk:285f7a822763e5ae8730a2910c20e4ebbd9954506cc5a4a8b4281729410cc719@ec2-3-216-181-219.compute-1.amazonaws.com:5432/d5l1ehhk24qmdk']
-    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    conn = psycopg2.connect(database="d5l1ehhk24qmdk", user="jglgvqhikukisk", password="285f7a822763e5ae8730a2910c20e4ebbd9954506cc5a4a8b4281729410cc719", host="ec2-3-216-181-219.compute-1.amazonaws.com", port="5432")
     cursor = conn.cursor()
 
     cursor.execute("SELECT user_word, bot_word FROM word;")

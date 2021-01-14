@@ -64,7 +64,7 @@ def database_check(message):
             break
             
     for d in data:
-        if d[0] in msg:
+        if d[0] in message:
             bot = d[1]
 
     conn.commit()

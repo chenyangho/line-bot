@@ -44,8 +44,6 @@ def handle_message(event):
     
     msg = event.message.text
     result = word_check(msg)
-    if result == None
-        return
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result))

@@ -9,8 +9,12 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
+from selenium import webdriver
+from PIL import Image
+from webdriver_manager.chrome import ChromeDriverManager
 import os
 import psycopg2
+import pyimgur
 
 app = Flask(__name__)
 
@@ -38,24 +42,64 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
+
 def handle_message(event):
     
     msg = event.message.text
-    r = database_check(msg)
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=r))
+    result = word_check(msg)
+    if "https" in result:
+        image_message = ImageSendMessage(
+                            original_content_url=result ,
+                            preview_image_url=result
+                        )
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=image_message))
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=result))
 
-    
+def word_check(message):
 
-def database_check(message):
+    if "天気" or "天氣" in message:
+        return weather()
+    # elif "教えるよ！" or "羊我教你！":
+    #     return word_learn()
+    else:
+        return database_word(message)
 
-    conn = psycopg2.connect(database="d5l1ehhk24qmdk", user="jglgvqhikukisk", password="285f7a822763e5ae8730a2910c20e4ebbd9954506cc5a4a8b4281729410cc719", host="ec2-3-216-181-219.compute-1.amazonaws.com", port="5432")
+
+def weather():
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+    driver.set_window_size(800, 1400)
+    driver.get("https://tenki.jp/forecast/6/30/")
+    driver.save_screenshot("screenshot.png")
+    driver.close()
+
+    img = Image.open("screenshot.png")
+    img.crop((20, 367, 710, 930)).save("screenshot.png")
+
+    CLIENT_ID = 'a2c6f8d4aeca343'
+    PATH = "screenshot.png" #A Filepath to an image on your computer"
+    title = "Uploaded with PyImgur"
+
+    im = pyimgur.Imgur(CLIENT_ID)
+    uploaded_image = im.upload_image(PATH, title=title)
+
+    return uploaded_image.link
+
+
+def database_word(message):
+    conn = psycopg2.connect(database="d5l1ehhk24qmdk",
+                            user="jglgvqhikukisk",
+                            password="285f7a822763e5ae8730a2910c20e4ebbd9954506cc5a4a8b4281729410cc719",
+                            host="ec2-3-216-181-219.compute-1.amazonaws.com",
+                            port="5432")
     cursor = conn.cursor()
-
     cursor.execute("SELECT user_word, bot_word FROM word;")
-    
     data = []
+
     while True:
         temp = cursor.fetchone()
         if temp:
@@ -65,13 +109,13 @@ def database_check(message):
             
     for d in data:
         if d[0] in message:
-            bot = d[1]
+            bot_word = d[1]
 
     conn.commit()
     cursor.close()
     conn.close()
 
-    return bot
+    return bot_word
 
 
 if __name__ == "__main__":

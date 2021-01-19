@@ -2,3 +2,7 @@ line-bot-sdk
 gunicorn
 flask
 psycopg2
+PIL
+selenium
+webdriver_manager.chrome
+pyimgur

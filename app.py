@@ -80,8 +80,6 @@ def database_word(message):
     for d in data:
         if d[0] in message:
             bot_word = d[1]
-        else:
-            return
 
     conn.commit()
     cursor.close()

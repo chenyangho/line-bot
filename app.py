@@ -52,13 +52,11 @@ def handle_message(event):
                             original_content_url=result ,
                             preview_image_url=result
                         )
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=image_message))
-    else:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=result))
+        result = image_message
+        
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=result))
 
 def word_check(message):
 

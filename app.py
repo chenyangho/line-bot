@@ -57,12 +57,12 @@ def handle_message(event):
 
 def word_check(message):
 
-    if "天気" or "天氣" in message:
-        return weather()
+    # if "天気" or "天氣" in message:
+    #     return weather()
     # elif "教えるよ！" or "羊我教你！":
     #     return word_learn()
-    else:
-        return database_word(message)
+    # else:
+    return database_word(message)
 
 
 def database_word(message):

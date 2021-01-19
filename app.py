@@ -69,17 +69,11 @@ def word_check(message):
 
 
 def weather():
-    options = webdriver.ChromeOptions()
-    options.add_argument('--no-sandbox')
-    options.add_argument("--headless")
-    options.add_argument("--disable-dev-shm-usage") 
-    browser = webdriver.Chrome(chromedriver, options=options)
 
-    # driver = webdriver.Chrome(ChromeDriverManager().install())
+    driver = webdriver.Chrome(ChromeDriverManager().install())
     driver.set_window_size(800, 1400)
     driver.get("https://tenki.jp/forecast/6/30/")
     driver.save_screenshot("screenshot.png")
-    driver.close()
 
     img = Image.open("screenshot.png")
     img.crop((20, 367, 710, 930)).save("screenshot.png")
@@ -90,7 +84,8 @@ def weather():
 
     im = pyimgur.Imgur(CLIENT_ID)
     uploaded_image = im.upload_image(PATH, title=title)
-
+    driver.close()
+    
     return uploaded_image.link
 
 

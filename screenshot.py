@@ -31,3 +31,12 @@ import pyimgur
 # print(uploaded_image.title)
 # print(uploaded_image.link)
 # print(uploaded_image.type)
+
+
+message = "hello"
+if "天気" in message  or "天氣" in message :
+    print(2)
+# elif "教えるよ！" or "羊我教你！":
+#     return word_learn()
+else:
+    print(1)

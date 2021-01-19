@@ -56,7 +56,7 @@ def handle_message(event):
 
 def word_check(message):
 
-    if "天気" or "天氣" in message:
+    if "天気" in message or "天氣" in message :
         return weather()
     # elif "教えるよ！" or "羊我教你！":
     #     return word_learn()

@@ -7,7 +7,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
 )
 from selenium import webdriver
 from PIL import Image
@@ -85,7 +85,7 @@ def weather():
     im = pyimgur.Imgur(CLIENT_ID)
     uploaded_image = im.upload_image(PATH, title=title)
     driver.close()
-    
+
     return uploaded_image.link
 
 

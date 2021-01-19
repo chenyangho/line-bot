@@ -2,7 +2,7 @@ line-bot-sdk
 gunicorn
 flask
 psycopg2
-PIL
+Pillow
 selenium
 webdriver_manager.chrome
 pyimgur

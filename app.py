@@ -58,8 +58,6 @@ def word_check(message):
 
     if "天気" in message or "天氣" in message :
         return weather()
-    # elif "教えるよ！" or "羊我教你！":
-    #     return word_learn()
     else:
         return database_word(message)
 
@@ -75,19 +73,27 @@ def database_word(message):
                             host="ec2-3-216-181-219.compute-1.amazonaws.com",
                             port="5432")
     cursor = conn.cursor()
-    cursor.execute("SELECT user_word, bot_word FROM word;")
-    data = []
 
-    while True:
-        temp = cursor.fetchone()
-        if temp:
-            data.append(temp)
-        else:
-            break
-            
-    for d in data:
-        if d[0] in message:
-            bot_word = d[1]
+    if "學一下啦" in message:
+
+        learn = message.split(";").strip()
+        cursor.execute("INSERT INTO word(word_id,user_word,bot_word,created_on) VALUES(DEFAULT," + learn[1].strip() + "," + learn[2].strip() + ",'2021-01-02')")
+        bot_word = "已學會新語言!!"　+ learn[2].strip()
+        
+    else:
+
+        cursor.execute("SELECT user_word, bot_word FROM word;")
+        data = []
+        while True:
+            temp = cursor.fetchone()
+            if temp:
+                data.append(temp)
+            else:
+                break
+                
+        for d in data:
+            if d[0] in message:
+                bot_word = d[1]
 
     conn.commit()
     cursor.close()

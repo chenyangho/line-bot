@@ -53,7 +53,7 @@ def handle_message(event):
                             preview_image_url=result
                         )
         result = image_message
-        
+
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result))
@@ -69,7 +69,13 @@ def word_check(message):
 
 
 def weather():
-    driver = webdriver.Chrome(ChromeDriverManager().install())
+    options = webdriver.ChromeOptions()
+    options.add_argument('--no-sandbox')
+    options.add_argument("--headless")
+    options.add_argument("--disable-dev-shm-usage") 
+    browser = webdriver.Chrome(chromedriver, options=options)
+
+    # driver = webdriver.Chrome(ChromeDriverManager().install())
     driver.set_window_size(800, 1400)
     driver.get("https://tenki.jp/forecast/6/30/")
     driver.save_screenshot("screenshot.png")

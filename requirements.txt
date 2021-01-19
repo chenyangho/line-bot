@@ -4,5 +4,5 @@ flask
 psycopg2
 Pillow
 selenium
-webdriver_manager.chrome
+webdriver_manager
 pyimgur

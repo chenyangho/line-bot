@@ -43,16 +43,16 @@ def handle_message(event):
     
     msg = event.message.text
     result = word_check(msg)
-    # if "https" in result:
-    image_message = ImageSendMessage(
-                        original_content_url=result,
-                        preview_image_url=result
-                    )
-    # result = image_message
-
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=image_message))
+    if "https" in result:
+        image_message = ImageSendMessage(
+                            original_content_url=result,
+                            preview_image_url=result
+                        )
+        line_bot_api.reply_message(event.reply_token, image_message)
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=result))
 
 def word_check(message):
 

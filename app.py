@@ -44,19 +44,30 @@ def handle_message(event):
     
     msg = event.message.text
     result = word_check(msg)
+    if "https" in result:
+        image_message = ImageSendMessage(
+                            original_content_url=result,
+                            preview_image_url=result
+                        )
+        result = image_message
+        
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result))
 
 def word_check(message):
 
-    # if "天気" or "天氣" in message:
-    #     return weather()
+    if "天気" or "天氣" in message:
+        return weather()
     # elif "教えるよ！" or "羊我教你！":
     #     return word_learn()
-    # else:
-    return database_word(message)
+    else:
+        return database_word(message)
 
+
+def weather():
+    img_url = "https://smtgvs.weathernews.jp/s/forecast/img25/KINKI_today.png"
+    return img_url
 
 def database_word(message):
     conn = psycopg2.connect(database="d5l1ehhk24qmdk",

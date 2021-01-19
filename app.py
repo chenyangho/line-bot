@@ -44,13 +44,8 @@ def handle_message(event):
     
     msg = event.message.text
     result = word_check(msg)
-    if "https" in result:
-        image_message = ImageSendMessage(
-                            original_content_url=result ,
-                            preview_image_url=result
-                        )
-        result = image_message
-
+    if result == None
+        return
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result))
@@ -85,6 +80,8 @@ def database_word(message):
     for d in data:
         if d[0] in message:
             bot_word = d[1]
+        else:
+            return
 
     conn.commit()
     cursor.close()

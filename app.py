@@ -9,9 +9,6 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
 )
-from selenium import webdriver
-from PIL import Image
-from webdriver_manager.chrome import ChromeDriverManager
 import os
 import psycopg2
 import pyimgur
@@ -66,27 +63,6 @@ def word_check(message):
     #     return word_learn()
     else:
         return database_word(message)
-
-
-def weather():
-
-    driver = webdriver.Chrome(ChromeDriverManager().install())
-    driver.set_window_size(800, 1400)
-    driver.get("https://tenki.jp/forecast/6/30/")
-    driver.save_screenshot("screenshot.png")
-
-    img = Image.open("screenshot.png")
-    img.crop((20, 367, 710, 930)).save("screenshot.png")
-
-    CLIENT_ID = 'a2c6f8d4aeca343'
-    PATH = "screenshot.png" #A Filepath to an image on your computer"
-    title = "Uploaded with PyImgur"
-
-    im = pyimgur.Imgur(CLIENT_ID)
-    uploaded_image = im.upload_image(PATH, title=title)
-    driver.close()
-
-    return uploaded_image.link
 
 
 def database_word(message):

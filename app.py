@@ -77,7 +77,7 @@ def database_word(message):
     if "學一下" in message:
 
         learn = message.split("!")
-        cursor.execute("INSERT INTO word(word_id,user_word,bot_word,created_on) VALUES(DEFAULT," + learn[1].strip() + "," + learn[2].strip() + ",'2021-01-02')")
+        cursor.execute("INSERT INTO word(word_id,user_word,bot_word,created_on) VALUES(DEFAULT,'" + learn[1].strip() + "','" + learn[2].strip() + "','2021-01-02')")
         bot_word = "已學會新語言!!" + learn[2].strip()
 
     else:

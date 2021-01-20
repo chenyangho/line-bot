@@ -12,6 +12,7 @@ from linebot.models import (
 import os
 import psycopg2
 import pyimgur
+from googletrans import Translator
 
 app = Flask(__name__)
 

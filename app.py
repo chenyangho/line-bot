@@ -58,11 +58,25 @@ def word_check(message):
 
     if "天気" in message or "天氣" in message :
         return weather()
+    elif message[:2] == "@日":
+        return translate_text(message[2:],dest='ja')
+    elif message[:2] == "@中":
+        return translate_text(message[2:],dest='zh-tw')
+    elif message[:2] == "@英":
+        return translate_text(message[2:],dest='en')
+    elif message[:2] == "@韓": 
+        return translate_text(message[2:],dest='ko')
     else:
         return database_word(message)
 
+def translate_text(text,dest='en'):
+
+    translator = Translator()
+    result = translator.translate(text, dest).text
+    return result
 
 def weather():
+
     img_url = "https://smtgvs.weathernews.jp/s/forecast/img25/KINKI_today.png"
     return img_url
 

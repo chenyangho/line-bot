@@ -32,7 +32,15 @@ import pyimgur
 # print(uploaded_image.link)
 # print(uploaded_image.type)
 
-data = []
-word = "學一下  ; a;b   "
-a = word.split(";")
-print(a[2])
+
+from googletrans import Translator # Google 翻譯模組
+
+def translate_text(text,dest='en'):
+   
+    translator = Translator()
+    result = translator.translate(text, dest).text
+    return result
+
+a = "食堂"
+
+print(translate_text(a))

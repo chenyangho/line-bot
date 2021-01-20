@@ -3,4 +3,4 @@ gunicorn
 flask
 psycopg2
 pyimgur
-googletrans==3.1.0
+googletrans==3.1.0a0

@@ -101,7 +101,7 @@ def weather_taiwan():
     if r.status_code == rq.codes.ok:
         soup = BeautifulSoup(r.text, "html.parser")
         map_img = soup.find("img", class_="img-responsive").get("src")
-    last_url = map_img + map[:-4] + "w" + map[-4:]
+    last_url = map_url + map_img[:-4] + "w" + map_img[-4:]
 
     image_message = ImageSendMessage(
                             original_content_url=last_url,

@@ -114,12 +114,6 @@ def weather_taiwan():
         map_img = soup.find("img", class_="img-responsive").get("src")
     last_url = map_url + map_img[:-4] + "w" + map_img[-4:]
 
-    image_message = ImageSendMessage(
-                            original_content_url=last_url,
-                            preview_image_url=last_url
-                        )
-    line_bot_api.reply_message(event.reply_token, image_message)
-
     time = int(time.strftime("%H", time.localtime()))
     with urllib.request.urlopen(data_url) as url:
         word = []

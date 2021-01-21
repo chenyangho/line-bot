@@ -141,7 +141,7 @@ def weather_taiwan():
             say += i
             say += "\n"
 
-    result_weather = [last_url, say]
+    result_weather = [last_url, str(say)]
 
     return result_weather
 

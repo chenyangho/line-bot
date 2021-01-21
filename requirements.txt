@@ -7,5 +7,5 @@ googletrans==3.1.0a0
 requests
 BeautifulSoup
 json
-urllib.request
+urllib
 time

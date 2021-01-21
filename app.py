@@ -61,10 +61,11 @@ def handle_message(event):
                             original_content_url=result[0],
                             preview_image_url=result[0]
                         )
-        line_bot_api.reply_message(event.reply_token, image_message)
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=result[1]))
+        
+        line_bot_api.reply_message(event.reply_token, image_message)
     else:
         line_bot_api.reply_message(
             event.reply_token,

@@ -12,6 +12,8 @@ if r.status_code == rq.codes.ok:
     soup = BeautifulSoup(r.text, "html.parser")
     map = soup.find("img", class_="img-responsive").get("src")
  
+print(map_url + map[:-4] + "w" + map[-4:])
+
 with urllib.request.urlopen(data_url) as url:
     word = []
     data = json.loads(url.read().decode())
@@ -33,7 +35,7 @@ with urllib.request.urlopen(data_url) as url:
         # 降雨機率
         PoP = "降雨機率 : " + data['cwbopendata']['dataset']['location'][i]['weatherElement'][4]['time'][now]['parameter']['parameterName'] + "%"
         word += [[city, about, MAXt, MINt, PoP]]
-print(map_url + map[:-4] + "w" + map[-4:])
+
 say = ""
 for w in word:
     say += "\n"

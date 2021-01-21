@@ -49,12 +49,23 @@ def handle_message(event):
     
     msg = event.message.text
     result = word_check(msg)
-    if "https" in result:
+    if "https://smtgvs." in result:
         image_message = ImageSendMessage(
                             original_content_url=result,
                             preview_image_url=result
                         )
         line_bot_api.reply_message(event.reply_token, image_message)
+
+    elif "https://www.cwb.gov.tw" in result[0]:
+        image_message = ImageSendMessage(
+                            original_content_url=result[0],
+                            preview_image_url=result[0]
+                        )
+        line_bot_api.reply_message(event.reply_token, image_message)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=result[1]))
+
     else:
         line_bot_api.reply_message(
             event.reply_token,
@@ -118,7 +129,7 @@ def weather_taiwan():
             word.append(["上午"])
         else:
             now = 1
-            word.append(["上午"])
+            word.append(["下午"])
         for i in range(22):
             # 城市名子
             city = data['cwbopendata']['dataset']['location'][i]['locationName']
@@ -139,7 +150,9 @@ def weather_taiwan():
             say += i
             say += "\n"
 
-    return say
+    result_weather = [last_url, say]
+
+    return result_weather
 
 
 # 學/回話

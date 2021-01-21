@@ -10,9 +10,9 @@ time = int(time.strftime("%H", time.localtime()))
 r = rq.get(img_url)
 if r.status_code == rq.codes.ok:
     soup = BeautifulSoup(r.text, "html.parser")
-    map = soup.find("img", class_="img-responsive").get("src")
+    mapr = soup.find("img", class_="img-responsive").get("src")
  
-print(map_url + map[:-4] + "w" + map[-4:])
+full_url = map_url + mapr[:-4] + "w" + mapr[-4:]
 
 with urllib.request.urlopen(data_url) as url:
     word = []
@@ -22,7 +22,7 @@ with urllib.request.urlopen(data_url) as url:
         word.append(["上午"])
     else:
         now = 1
-        word.append(["上午"])
+        word.append(["下午"])
     for i in range(22):
         # 城市名子
         city = data['cwbopendata']['dataset']['location'][i]['locationName']
@@ -42,5 +42,6 @@ for w in word:
     for i in w:
         say += i
         say += "\n"
-
-print(say)
+result = [full_url, say]
+if "https://www.cwb.gov.tw" in  result[0]:
+    print("a")

@@ -6,4 +6,3 @@ pyimgur
 googletrans==3.1.0a0
 requests
 BeautifulSoup4
-time

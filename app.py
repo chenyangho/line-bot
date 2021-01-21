@@ -114,11 +114,11 @@ def weather_taiwan():
         map_img = soup.find("img", class_="img-responsive").get("src")
     last_url = map_url + map_img[:-4] + "w" + map_img[-4:]
 
-    time = int(time.strftime("%H", time.localtime()))
+    hour = int(time.strftime("%H", time.localtime())) - 9
     with urllib.request.urlopen(data_url) as url:
         word = []
         data = json.loads(url.read().decode())
-        if time >= 0 and time < 12:
+        if hour >= 0 and hour < 12:
             now = 0
             word.append(["上午"])
         else:

@@ -5,7 +5,7 @@ psycopg2
 pyimgur
 googletrans==3.1.0a0
 requests
-BeautifulSoup
+BeautifulSoup4
 json
 urllib
 time

@@ -15,7 +15,8 @@ import pyimgur
 from googletrans import Translator
 import requests as rq
 from bs4 import BeautifulSoup
-import json,urllib.request
+import json
+import urllib
 import time
 
 app = Flask(__name__)
@@ -95,7 +96,7 @@ def weather_taiwan():
     data_url = "https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-001?Authorization=CWB-A5FB0E56-1660-4D54-BC65-6D3D6F14D376&format=JSON"
     img_url = "https://www.cwb.gov.tw/V8/C/W/OBS_Temp.html"
     map_url = "https://www.cwb.gov.tw"
-    
+
     r = rq.get(img_url)
     if r.status_code == rq.codes.ok:
         soup = BeautifulSoup(r.text, "html.parser")
@@ -107,7 +108,7 @@ def weather_taiwan():
                             preview_image_url=last_url
                         )
     line_bot_api.reply_message(event.reply_token, image_message)
-    
+
     time = int(time.strftime("%H", time.localtime()))
     with urllib.request.urlopen(data_url) as url:
         word = []

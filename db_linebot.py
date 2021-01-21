@@ -37,10 +37,10 @@ while True:
         data.append(temp)
     else:
         break
-        ewwwwwwwwes
-for d in data:
-    if d[0] in input_word:
-        print(d[1])
+print(data)    
+# for d in data:
+#     if d[0] in input_word:
+#         print(d[1])
 
 conn.commit()
 

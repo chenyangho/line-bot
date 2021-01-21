@@ -43,5 +43,4 @@ for w in word:
         say += i
         say += "\n"
 result = [full_url, say]
-if "https://www.cwb.gov.tw" in  result[0]:
-    print("a")
+print(result[1])

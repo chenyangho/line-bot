@@ -6,5 +6,5 @@ pyimgur
 googletrans==3.1.0a0
 requests
 BeautifulSoup4
-urllib==1.21.1
+urllib.request
 time

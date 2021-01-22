@@ -63,7 +63,7 @@ def handle_message(event):
                         )
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=result[1]), image_message)
+            TextSendMessage(text=result[1], image_message))
 
         # line_bot_api.reply_message(event.reply_token)
     else:

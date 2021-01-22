@@ -57,20 +57,16 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, image_message)
 
     elif "https://www.cwb.gov.tw" in result[0]:
-        # image_message = ImageSendMessage(
-        #                     original_content_url=result[0],
-        #                     preview_image_url=result[0]
-        #                 )
+        image_message = ImageSendMessage(
+                            original_content_url=result[0],
+                            preview_image_url=result[0]
+                        )
 
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=result[1]),
-            ImageSendMessage(
-                            original_content_url=result[0],
-                            preview_image_url=result[0]
-                        ))
+            TextSendMessage(text=result[1]))
 
-        # line_bot_api.reply_message(event.reply_token, image_message)
+        line_bot_api.reply_message(reply_token, image_message)
     else:
         line_bot_api.reply_message(
             event.reply_token,

@@ -66,7 +66,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=result[1]))
 
-        line_bot_api.reply_message(reply_token, image_message)
+        line_bot_api.reply_message(image_message)
     else:
         line_bot_api.reply_message(
             event.reply_token,
@@ -143,6 +143,7 @@ def weather_taiwan():
         for i in w:
             say += i
             say += "\n"
+        say += "\n"
 
     result_weather = [last_url, str(say)]
 

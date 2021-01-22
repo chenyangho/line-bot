@@ -57,14 +57,18 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, image_message)
 
     elif "https://www.cwb.gov.tw" in result[0]:
-        image_message = ImageSendMessage(
-                            original_content_url=result[0],
-                            preview_image_url=result[0]
-                        )
+        # image_message = ImageSendMessage(
+        #                     original_content_url=result[0],
+        #                     preview_image_url=result[0]
+        #                 )
 
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=result[1]), str(image_message))
+            TextSendMessage(text=result[1]),
+            ImageSendMessage(
+                            original_content_url=result[0],
+                            preview_image_url=result[0]
+                        ))
 
         # line_bot_api.reply_message(event.reply_token, image_message)
     else:
@@ -75,11 +79,7 @@ def handle_message(event):
 # 輸入判定
 def word_check(message):
 
-    if "天気" in message:
-        return weather_japan()
-    elif "天氣" in message:
-        return weather_taiwan()
-    elif message[:2] == "@日":
+    if message[:2] == "@日":
         return translate_text(message[2:],dest='ja')
     elif message[:2] == "@中":
         return translate_text(message[2:],dest='zh-tw')
@@ -87,6 +87,10 @@ def word_check(message):
         return translate_text(message[2:],dest='en')
     elif message[:2] == "@韓": 
         return translate_text(message[2:],dest='ko')
+    elif "天氣" in message:
+        return weather_taiwan()
+    elif "天気" in message:
+        return weather_japan()
     else:
         return database_word(message)
 

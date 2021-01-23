@@ -67,6 +67,10 @@ def handle_message(event):
             TextSendMessage(text=result[1]))
 
         line_bot_api.push_message(profile.user_id, image_message)
+
+    elif "flex_message" in result[1]:
+        line_bot_api.reply_message(event.reply_token, FlexSendMessage(result[0]))
+
     else:
         line_bot_api.reply_message(
             event.reply_token,
@@ -93,13 +97,13 @@ def word_check(message):
         return database_word(message)
 
 # creater
-def  creater():    
+def creater():    
     flex_message = FlexSendMessage(
-    alt_text='hello',
-    contents={'type': 'bubble','hero': {'type': 'image','url': 'https://i.imgur.com/4hng01H.jpg','size': 'full'},'body': {'type': 'box','layout': 'vertical','contents': [{'type': 'text','text': '陳暘和','color': '#487e95','weight': 'bold','style': 'normal','decoration': 'none','position': 'relative','size': 'xl'},{'type': 'box','layout': 'vertical','contents': [{'type': 'text','text': 'ECCコンピューター専門学校　在学','size': 'sm'}]},{'type': 'box','layout': 'baseline','contents': [{'type': 'icon','url': 'https://www.flaticon.com/svg/vstatic/svg/941/941565.svg?token=exp=1611393042~hmac=b1c4644da87587d8bf41510c6d395c35','size': 'xl','offsetTop': 'lg'},{'type': 'text','text': 'jacky85031085@gmail.com','margin': 'md','offsetTop': 'sm'}],'paddingAll': 'none'}]}}
-)
-    line_bot_api.reply_message(reply_token, FlexSendMessage(flex_message))
-
+                    alt_text='hello',
+                    contents={'type': 'bubble','hero': {'type': 'image','url': 'https://i.imgur.com/4hng01H.jpg','size': 'full'},'body': {'type': 'box','layout': 'vertical','contents': [{'type': 'text','text': '陳暘和','color': '#487e95','weight': 'bold','style': 'normal','decoration': 'none','position': 'relative','size': 'xl'},{'type': 'box','layout': 'vertical','contents': [{'type': 'text','text': 'ECCコンピューター専門学校　在学','size': 'sm'}]},{'type': 'box','layout': 'baseline','contents': [{'type': 'icon','url': 'https://www.flaticon.com/svg/vstatic/svg/941/941565.svg?token=exp=1611393042~hmac=b1c4644da87587d8bf41510c6d395c35','size': 'xl','offsetTop': 'lg'},{'type': 'text','text': 'jacky85031085@gmail.com','margin': 'md','offsetTop': 'sm'}],'paddingAll': 'none'}]}}
+                )
+    return [flex_message, "flex_message"]
+    
 
 # 翻譯功能
 def translate_text(text,dest='en'):

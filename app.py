@@ -71,7 +71,7 @@ def handle_message(event):
     elif "flex_message" in result[1]:
         flex_message = FlexSendMessage(
                             alt_text='hello',
-                            result[0]
+                            contents=result[0]
                         )
         line_bot_api.reply_message(event.reply_token, FlexSendMessage(result[0]))
 

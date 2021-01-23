@@ -69,12 +69,10 @@ def handle_message(event):
         line_bot_api.push_message(profile.user_id, image_message)
 
     elif "flex_message" in result[1]:
-        container_obj = FlexSendMessage.new_from_json_dict(result[0])
-        flex_message = FlexSendMessage(
+        line_bot_api.reply_message(event.reply_token, FlexSendMessage(
                             alt_text='hello',
-                            contents=container_obj
-                        )
-        line_bot_api.reply_message(event.reply_token, FlexSendMessage(flex_message))
+                            contents={'type': 'bubble','hero': {'type': 'image','url': 'https://i.imgur.com/4hng01H.jpg','size': 'full'},'body': {'type': 'box','layout': 'vertical','contents': [{'type': 'text','text': '陳暘和','color': '#487e95','weight': 'bold','style': 'normal','decoration': 'none','position': 'relative','size': 'xl'},{'type': 'box','layout': 'vertical','contents': [{'type': 'text','text': 'ECCコンピューター専門学校　在学','size': 'sm'}]},{'type': 'box','layout': 'baseline','contents': [{'type': 'icon','url': 'https://www.flaticon.com/svg/vstatic/svg/941/941565.svg?token=exp=1611393042~hmac=b1c4644da87587d8bf41510c6d395c35','size': 'xl','offsetTop': 'lg'},{'type': 'text','text': 'jacky85031085@gmail.com','margin': 'md','offsetTop': 'sm'}],'paddingAll': 'none'}]}}
+                        ))
 
     else:
         line_bot_api.reply_message(
@@ -97,15 +95,9 @@ def word_check(message):
     elif "天気" in message:
         return weather_japan()
     elif "Show creator" in message:
-        return creater()
+        return "flex_message"
     else:
         return database_word(message)
-
-# creater
-def creater():    
-
-    json_text = {'type': 'bubble','hero': {'type': 'image','url': 'https://i.imgur.com/4hng01H.jpg','size': 'full'},'body': {'type': 'box','layout': 'vertical','contents': [{'type': 'text','text': '陳暘和','color': '#487e95','weight': 'bold','style': 'normal','decoration': 'none','position': 'relative','size': 'xl'},{'type': 'box','layout': 'vertical','contents': [{'type': 'text','text': 'ECCコンピューター専門学校　在学','size': 'sm'}]},{'type': 'box','layout': 'baseline','contents': [{'type': 'icon','url': 'https://www.flaticon.com/svg/vstatic/svg/941/941565.svg?token=exp=1611393042~hmac=b1c4644da87587d8bf41510c6d395c35','size': 'xl','offsetTop': 'lg'},{'type': 'text','text': 'jacky85031085@gmail.com','margin': 'md','offsetTop': 'sm'}],'paddingAll': 'none'}]}}
-    return [json_text, "flex_message"]
     
 
 # 翻譯功能

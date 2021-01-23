@@ -7,7 +7,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
+    MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, FlexSendMessage
 )
 import os
 import psycopg2
@@ -87,7 +87,7 @@ def word_check(message):
         return weather_taiwan()
     elif "天気" in message:
         return weather_japan()
-    elif "who is creater" in message:
+    elif "Show creater" in message:
         return creater()
     else:
         return database_word(message)

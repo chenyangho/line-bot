@@ -73,7 +73,7 @@ def handle_message(event):
                             alt_text='hello',
                             contents=result[0]
                         )
-        line_bot_api.reply_message(event.reply_token, FlexSendMessage(result[0]))
+        line_bot_api.reply_message(event.reply_token, FlexSendMessage(flex_message)
 
     else:
         line_bot_api.reply_message(

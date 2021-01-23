@@ -36,7 +36,7 @@
         "contents": [
           {
             "type": "icon",
-            "url": "https://www.flaticon.com/svg/vstatic/svg/941/941565.svg?token=exp=1611393042~hmac=b1c4644da87587d8bf41510c6d395c35",
+            "url": "https://i.imgur.com/f8ZeNpy.png",
             "size": "xl",
             "offsetTop": "lg"
           },
@@ -47,7 +47,8 @@
             "offsetTop": "sm"
           }
         ],
-        "paddingAll": "none"
+        "paddingAll": "none",
+        "paddingBottom": "md"
       }
     ]
   }

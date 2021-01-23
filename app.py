@@ -70,7 +70,6 @@ def handle_message(event):
 
     elif result == "flex_message":
         FlexMessage = json.load(open('creator.json','r',encoding='utf-8'))
-        print(FlexMessage)
         line_bot_api.reply_message(event.reply_token, FlexSendMessage(
                             alt_text='hello',
                             contents=FlexMessage

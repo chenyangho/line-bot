@@ -85,6 +85,8 @@ def handle_message(event):
             FlexMessage['contents'][i]['body']['contents'][0]['text'] = result[0][i][1]
             # address
             FlexMessage['contents'][i]['body']['contents'][1]['contents'][0]['contents'][0]['text'] = result[0][i][2]
+            # action
+            FlexMessage['contents'][i]['hero']['action']['uri'] = result[i][3]
 
         line_bot_api.reply_message(event.reply_token, FlexSendMessage(
                             alt_text='Food',
@@ -128,6 +130,7 @@ def food(message):
     res_name = []
     address = []
     result = []
+    action_url = []
     if r.status_code == rq.codes.ok:
         soup = BeautifulSoup(r.text, "html.parser")
         top_three = soup.find_all("li", class_="areatop-top3__rst-item")
@@ -142,15 +145,17 @@ def food(message):
             # address & type
             address_type = a.find("span", class_="areatop-top3__area-catg").getText().replace(' ','').replace('\n','')
             address.append(address_type)
+            action = shop.find("a", class_="areatop-top3__rst-target").get('href')
+            action_url.append(action)
 
     if "レストラン" in message:
-        result.extend([(img_url[0], res_name[0], address[0]),(img_url[1], res_name[1], address[1]),(img_url[2], res_name[2], address[2])])
+        result.extend([(img_url[0], res_name[0], address[0], action_url[0]),(img_url[1], res_name[1], address[1], action_url[1]),(img_url[2], res_name[2], address[2], action_url[2])])
     elif "ランチ" in message:
-        result.extend([(img_url[3], res_name[3], address[3]),(img_url[4], res_name[4], address[4]),(img_url[5], res_name[5], address[5])])
+        result.extend([(img_url[3], res_name[3], address[3], action_url[3]),(img_url[4], res_name[4], address[4], action_url[4]),(img_url[5], res_name[5], address[5], action_url[5])])
     elif "ラーメン" in message: 
-        result.extend([(img_url[6], res_name[6], address[6]),(img_url[7], res_name[7], address[7]),(img_url[8], res_name[8], address[8])])
+        result.extend([(img_url[6], res_name[6], address[6], action_url[6]),(img_url[7], res_name[7], address[7], action_url[7]),(img_url[8], res_name[8], address[8], action_url[8])])
     elif "スイーツ" in message:
-        result.extend([(img_url[9], res_name[9], address[9]),(img_url[10], res_name[10], address[10]),(img_url[11], res_name[11], address[11])])
+        result.extend([(img_url[9], res_name[9], address[9], action_url[9]),(img_url[10], res_name[10], address[10], action_url[10]),(img_url[11], res_name[11], address[11], action_url[11])])
 
     return result
 

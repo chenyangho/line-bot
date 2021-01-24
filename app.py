@@ -86,7 +86,7 @@ def handle_message(event):
             # address
             FlexMessage['contents'][i]['body']['contents'][1]['contents'][0]['contents'][0]['text'] = result[0][i][2]
             # action
-            FlexMessage['contents'][i]['hero']['action']['uri'] = result[i][3]
+            FlexMessage['contents'][i]['hero']['action']['uri'] = result[0][i][3]
 
         line_bot_api.reply_message(event.reply_token, FlexSendMessage(
                             alt_text='Food',

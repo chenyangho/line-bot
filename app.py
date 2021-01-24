@@ -71,7 +71,23 @@ def handle_message(event):
     elif result == "flex_message":
         FlexMessage = json.load(open('creator.json','r',encoding='utf-8'))
         line_bot_api.reply_message(event.reply_token, FlexSendMessage(
-                            alt_text='hello',
+                            alt_text='Creator',
+                            contents=FlexMessage
+                        ))
+
+    elif result[1] == "food":
+        FlexMessage = json.load(open('food.json','r',encoding='utf-8'))
+
+        for i in range(3): 
+            # url
+            FlexMessage['contents'][i]['hero']['url'] = result[0][i][0]
+            # shop_name
+            FlexMessage['contents'][i]['body']['contents'][0]['text'] = result[0][i][1]
+            # address
+            FlexMessage['contents'][i]['body']['contents'][1]['contents'][0]['contents'][0]['text'] = result[0][i][2]
+
+        line_bot_api.reply_message(event.reply_token, FlexSendMessage(
+                            alt_text='Food',
                             contents=FlexMessage
                         ))
 
@@ -79,6 +95,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=result))
+
         
 # 輸入判定
 def word_check(message):
@@ -97,9 +114,46 @@ def word_check(message):
         return weather_japan()
     elif "Show creator" in message:
         return "flex_message"
+    elif "レストラン" in message or "ランチ" in message or "ラーメン" in message or "スイーツ" in message:
+        return (food(message), "food")
     else:
         return database_word(message)
     
+
+def food(message):
+
+    url = "https://tabelog.com/osaka/A2701/A270101/"
+    r = rq.get(url)
+    img_url = []
+    res_name = []
+    address = []
+    result = []
+    if r.status_code == rq.codes.ok:
+        soup = BeautifulSoup(r.text, "html.parser")
+        top_three = soup.find_all("li", class_="areatop-top3__rst-item")
+        for shop in top_three:
+            a = shop.find("div", class_="areatop-top3__rst-img")
+            # image_url
+            image_url = a.select_one("img").get("src")
+            img_url.append(image_url)
+            # shop_name
+            shop_name = a.find("h3").getText()
+            res_name.append(shop_name)
+            # address & type
+            address_type = a.find("span", class_="areatop-top3__area-catg").getText().replace(' ','').replace('\n','')
+            address.append(address_type)
+
+    if "レストラン" in message:
+        result.extend([(img_url[0], res_name[0], address[0]),(img_url[1], res_name[1], address[1]),(img_url[2], res_name[2], address[2])])
+    elif "ランチ" in message:
+        result.extend([(img_url[3], res_name[3], address[3]),(img_url[4], res_name[4], address[4]),(img_url[5], res_name[5], address[5])])
+    elif "ラーメン" in message: 
+        result.extend([(img_url[6], res_name[6], address[6]),(img_url[7], res_name[7], address[7]),(img_url[8], res_name[8], address[8])])
+    elif "スイーツ" in message:
+        result.extend([(img_url[9], res_name[9], address[9]),(img_url[10], res_name[10], address[10]),(img_url[11], res_name[11], address[11])])
+
+    return result
+
 
 # 翻譯功能
 def translate_text(text,dest='en'):
@@ -108,11 +162,13 @@ def translate_text(text,dest='en'):
     result = translator.translate(text, dest).text
     return result
 
+
 # 查天氣功能(japan)
 def weather_japan():
 
     img_url = "https://smtgvs.weathernews.jp/s/forecast/img25/KINKI_today.png"
     return img_url
+
 
 # 查天氣功能(taiwan)
 def weather_taiwan():
@@ -170,7 +226,7 @@ def database_word(message):
                             port="5432")
     cursor = conn.cursor()
 
-    if "學一下" in message:
+    if "學一下" in message[:3]:
 
         learn = message.split("!")
         cursor.execute("INSERT INTO word(word_id,user_word,bot_word,created_on) VALUES(DEFAULT,'" + learn[1].strip() + "','" + learn[2].strip() + "','2021-01-02')")

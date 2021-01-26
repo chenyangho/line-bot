@@ -102,13 +102,13 @@ def handle_message(event):
 # 輸入判定
 def word_check(message):
 
-    if message[:2] == "@日":
+    if message[:2] == "@日" or message[:2] == "＠日":
         return translate_text(message[2:],dest='ja')
-    elif message[:2] == "@中":
+    elif message[:2] == "@中" or message[:2] == "＠中":
         return translate_text(message[2:],dest='zh-tw')
-    elif message[:2] == "@英":
+    elif message[:2] == "@英" or message[:2] == "＠英":
         return translate_text(message[2:],dest='en')
-    elif message[:2] == "@韓": 
+    elif message[:2] == "@韓" or message[:2] == "＠韓": 
         return translate_text(message[2:],dest='ko')
     elif "天氣" in message:
         return weather_taiwan()
@@ -231,7 +231,7 @@ def database_word(message):
                             port="5432")
     cursor = conn.cursor()
 
-    if "學一下" in message[:3]:
+    if "學一下" in message[:3]　or "学んで" in message[:3]:
 
         learn = message.split("!")
         cursor.execute("INSERT INTO word(word_id,user_word,bot_word,created_on) VALUES(DEFAULT,'" + learn[1].strip() + "','" + learn[2].strip() + "','2021-01-02')")

@@ -237,6 +237,23 @@ def database_word(message):
         cursor.execute("INSERT INTO word(word_id,user_word,bot_word,created_on) VALUES(DEFAULT,'" + learn[1].strip() + "','" + learn[2].strip() + "','2021-01-02')")
         bot_word = "已學會新語言!!" + learn[2].strip()
 
+    elif "何が話せる" in message:
+
+        cursor.execute("SELECT user_word, bot_word FROM word;")
+        data = []
+        learned = ""
+        while True:
+            temp = cursor.fetchone()
+            if temp:
+                data.append(temp)
+            else:
+                break
+
+        for word in data:
+            learned += word[0] + "-->" + word[1] + "\n"
+
+        return learned
+
     else:
 
         cursor.execute("SELECT user_word, bot_word FROM word;")

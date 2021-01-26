@@ -231,7 +231,7 @@ def database_word(message):
                             port="5432")
     cursor = conn.cursor()
 
-    if "學一下" in message[:3]　or "学んで" in message[:3]:
+    if "學一下" in message[:3] or "学んで" in message[:3]:
 
         learn = message.split("!")
         cursor.execute("INSERT INTO word(word_id,user_word,bot_word,created_on) VALUES(DEFAULT,'" + learn[1].strip() + "','" + learn[2].strip() + "','2021-01-02')")
